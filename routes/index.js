@@ -6,6 +6,12 @@ const BasicStrategy = require('passport-http').BasicStrategy;
 
 const router = express.Router();
 
+const corsMiddleware = (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+}
+
 // Passport Basic Authentication Strategy
 passport.use(new BasicStrategy(
     function (username, password, done) {
@@ -17,11 +23,7 @@ passport.use(new BasicStrategy(
 ));
 
 // Allows CORS
-router.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    next();
-});
+router.use(corsMiddleware);
 
 /**
  * Documentation Routes
@@ -31,3 +33,6 @@ router.use((req, res, next) => {
 router.get('/', (req, res) => {
     res.status(200).send({ status: '200', message: 'Everything is fine, we\'re fine', requestBody: req.body });
 });
+
+
+module.exports = router;
