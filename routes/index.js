@@ -10,7 +10,7 @@ const corsMiddleware = (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
-}
+};
 
 // Passport Basic Authentication Strategy
 passport.use(new BasicStrategy(
@@ -31,7 +31,7 @@ router.use(corsMiddleware);
 
 // Use this route for Api documentation
 router.get('/', (req, res) => {
-    res.status(200).send({ status: '200', message: 'Everything is fine, we\'re fine', requestBody: req.body });
+    res.status(200).json({ status: '200', message: 'Everything is fine, we\'re fine', requestBody: req.body });
 });
 
 
