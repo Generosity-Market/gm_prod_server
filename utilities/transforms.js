@@ -21,13 +21,13 @@ exports.getExclusions = (excludes) => {
             return ['roundImage', 'whiteText'];
 
         case 'causes':
-            return ['userID', 'orgID', 'name', 'type', 'amount', 'description', 'purpose', 'icon', 'featured', 'backgroundImage', 'mainImage'];
+            return ['user_id', 'org_id', 'name', 'type', 'amount', 'description', 'purpose', 'icon', 'featured', 'backgroundImage', 'mainImage'];
 
         case 'organizations':
             return ['userId', 'taxId', 'name', 'short_name', 'heading', 'mission', 'email', 'site_url', 'backgroundImage', 'mainImage'];
 
         case 'donations':
-            return ['userID', 'causeID', 'amount'];
+            return ['user_id', 'cause_id', 'amount'];
 
         default:
             return [];
