@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
 
     Donation.hasMany(models.Comment, {
       as: "Comments",
-      foreignKey: "donationID"
+      foreignKey: "donation_id"
     })
   };
 

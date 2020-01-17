@@ -18,15 +18,15 @@ module.exports = (sequelize, DataTypes) => {
   Organization.associate = function (models) {
     Organization.belongsTo(models.User, {
       as: "Users",
-      foreignKey: "userID"
+      foreignKey: "user_id"
     })
     Organization.hasMany(models.Preference, {
       as: "Preferences",
-      foreignKey: "orgID"
+      foreignKey: "org_id"
     })
     Organization.hasMany(models.Cause, {
       as: "Causes",
-      foreignKey: "orgID"
+      foreignKey: "org_id"
     })
   };
 
