@@ -8,8 +8,8 @@ module.exports = {
         city: 'Atlanta',
         state: 'GA',
         zipcode: '30350',
-        coverImage: 'jessica-lewis-512219.jpg',
-        profileImage: 'profile2.jpg',
+        cover_image: 'jessica-lewis-512219.jpg',
+        profile_image: 'profile2.jpg',
     },
     passwords: {
         password: 'TestPassword_0123',

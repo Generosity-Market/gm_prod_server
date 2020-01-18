@@ -148,7 +148,7 @@ describe('User Endpoints', () => {
     describe('[GET] - /api/users/:id/causes', () => {
         it.todo('should return status code 200 (ok)');
 
-        it.todo('should return a user\'s causes from the user id');
+        it.todo('should return a user\'s created causes');
     });
 
     describe('[GET] - /api/users/:id/donations', () => {
