@@ -153,48 +153,48 @@ exports.getUserById = async (req, res) => {
 };
 
 // Edit users details
-// TODO: Convert to async/await
-exports.editUser = (req, res) => {
+exports.editUser = async (req, res) => {
+    const { address } = req.body;
 
     let updatedUser = {
-        ...req.body.address,
-        phone: req.body.phone,
-        name: req.body.name,
+        ...req.body,
+        ...address,
     };
 
     // // Changing the password to the hashed password
     // updatedUser.password = hashPassword(req.body.password);
 
-    User.update(updatedUser, {
-        where: {
-            id: req.params.id
-        },
-        returning: true,
-    })
-        .then(user => {
-            // console.log("User: ", user[1]);
-            res.status('201').send(user[1][0].dataValues); // Is good until we start updating preferences for the user
-
-            //   Preference.update(updatedPrefs, {
-            //     where: {
-            //       user_id: req.params.id
-            //     }
-            //   })
-            //     .then(prefs => {
-            //       // Adding the id and Preferences to the user data returned to the front end
-            //       updatedUser['Preferences'] = [updatedPrefs];
-            //       updatedUser.id = Number(req.params.id);
-            //       res.status('201').send(updatedUser);
-            //     })
-            //     .catch(err => {
-            //       res.status('500').send(err);
-            //     })
-            // })
-        })
-        .catch(err => {
-            res.status('500').send(err);
+    try {
+        const user = await User.update(updatedUser, {
+            where: {
+                id: req.params.id
+            },
+            returning: true,
         });
 
+        res.status('201').send(user[1][0].dataValues);
+        // console.log("User: ", user[1]);
+        // Is good until we start updating preferences for the user
+
+        //   Preference.update(updatedPrefs, {
+        //     where: {
+        //       user_id: req.params.id
+        //     }
+        //   })
+        //     .then(prefs => {
+        //       // Adding the id and Preferences to the user data returned to the front end
+        //       updatedUser['Preferences'] = [updatedPrefs];
+        //       updatedUser.id = Number(req.params.id);
+        //       res.status('201').send(updatedUser);
+        //     })
+        //     .catch(err => {
+        //       res.status('500').send(err);
+        //     })
+        // })
+
+    } catch (error) {
+        res.status('500').send(error);
+    };
 };
 
 // Upload user images to AWS S3 bucket, set user image urls
@@ -219,40 +219,41 @@ exports.setUserImage = async (req, res) => {
     }
 }
 
-// TODO: Convert to async/await
-exports.getUserCauses = (req, res) => {
-    // Get causes by the users id
-    Cause.findAll({
-        where: {
-            user_id: req.params.id
-        },
-        attributes: Object.keys(Cause.attributes).concat([
-            [sequelize.literal('(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")'),
-                'totalRaised']
-        ]),
-        include: [{
-            model: Preference,
-            as: 'Preferences'
-        }, {
-            model: Donation,
-            as: 'Donations',
+// Get causes by the users id
+exports.getUserCauses = async (req, res) => {
+    try {
+        const causes = await Cause.findAll({
+            where: {
+                user_id: req.params.id
+            },
+            attributes: Object.keys(Cause.attributes).concat([
+                [
+                    sequelize.literal('(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")'),
+                    'totalRaised'
+                ]
+            ]),
             include: [{
-                model: Comment,
-                as: 'Comments'
-            }]
-        }],
-    })
-        .then(causes => {
-            if (causes) {
-                res.status(200).json(causes);
-            } else {
-                res.status(404).send({ error: "No causes found" });
-            }
-        })
-        .catch(err => {
-            console.log("Error: ", err)
-            res.status(500).json(err);
+                model: Preference,
+                as: 'Preferences'
+            }, {
+                model: Donation,
+                as: 'Donations',
+                include: [{
+                    model: Comment,
+                    as: 'Comments'
+                }]
+            }],
         });
+
+        if (causes) {
+            res.status(200).json(causes);
+        } else {
+            res.status(404).send({ error: "No causes found" });
+        }
+    } catch (error) {
+        console.log("Error: ", error)
+        res.status(500).json(error);
+    };
 }
 
 // Get Causes that have Donations made by the user (Search by user_id)
