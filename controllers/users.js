@@ -44,11 +44,10 @@ exports.registerUser = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     // let passwordHash = bcrypt.hashSync(password, salt);
 
-    // TODO: can this be done with the spread operator instead????
     const newUser = {
         ...rest,
         salt,
-        email,
+        email: email.toLowerCase(),
         password: hashPassword(password),
     }
 
@@ -74,19 +73,19 @@ exports.registerUser = async (req, res) => {
     } else {
         res.status(403).send({ error: "Passwords do not match.", body: req.body })
     }
-
 };
 
 // Login route returns User data w/Preferences
-// TODO: Convet to async/await
-exports.loginUser = (req, res) => {
+exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
     console.log("Req.body: ", req.body);
 
     if ((!email) || (!password)) {
         res.status(403).send({ error: 'Fields must not be empty.' })
-    } else {
-        User.findOne({
+    }
+
+    try {
+        const user = await User.findOne({
             where: {
                 email: email.toLowerCase(),
             },
@@ -94,23 +93,24 @@ exports.loginUser = (req, res) => {
                 model: Preference,
                 as: 'Preferences'
             }]
-        }).then(user => {
-            if (bcrypt.compareSync(password, user.password)) {
-                var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
-                res.status(200).send({ user: user, auth_token: token });
-            } else {
-                res.status(403).send({ error: "Username or password does not match." })
-            }
-        }).catch(err => {
-            res.status(404).send({ error: "Could not find user with that email" });
-        })
-    };
+        });
 
+        const userJson = JSON.parse(JSON.stringify(user));
+
+        if (bcrypt.compareSync(password, userJson.password)) {
+            var token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+            res.status(200).send({ user: userJson, auth_token: token });
+        } else {
+            res.status(403).send({ error: "Username or password does not match." })
+        }
+
+    } catch (error) {
+        res.status(404).send({ error });
+    }
 };
 
 // Get all users w/Preferences
 exports.getAllUsers = async (req, res) => {
-    // TODO: research why the include statement doesnt actually include the preferences only in this route
     try {
         const user = await User.findAll({
             include: [{
@@ -283,17 +283,16 @@ exports.getSupportedCauses = async (req, res) => {
 // Delete a user from the db
 // NOTE In the future we must delete associated data first
 // TODO: add onDelete: 'CASCADE' to model??
-// TODO: Convert to async/await
-exports.deleteUser = (req, res) => {
-    User.destroy({
-        where: {
-            username: req.params.username
-        }
-    })
-        .then(data => {
-            res.status(200).send(req.params.username + " deleted.");
-        })
-        .catch(error => {
-            res.status(500).send(error);
+exports.deleteUser = async (req, res) => {
+    try {
+        const deleted = await User.destroy({
+            where: {
+                id: req.params.id
+            }
         });
+
+        res.status(200).send({ message: `User id #${req.params.id} deleted: ${!!deleted}` });
+    } catch (error) {
+        res.status(500).send(error);
+    }
 };

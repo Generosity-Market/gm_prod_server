@@ -37,8 +37,6 @@ router.post("/:id/edit", editUser);
 router.post('/:id/images', setUserImage);
 
 // Delete a user from the db
-// NOTE In the future we must delete associated data first
-// TODO: Set onDelete: 'CASCADE' in model?
-router.delete('/:name', deleteUser);
+router.delete('/:id', deleteUser);
 
 module.exports = router;
