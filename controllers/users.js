@@ -127,7 +127,7 @@ exports.getAllUsers = async (req, res) => {
     } catch (error) {
         return res.status(500).json(error);
     }
-}
+};
 
 // Get a user by id w/Preferences & Causes
 exports.getUserById = async (req, res) => {
@@ -217,7 +217,7 @@ exports.setUserImage = async (req, res) => {
     } catch (error) {
         return res.status(500).send(error);
     }
-}
+};
 
 // Get causes by the users id
 exports.getUserCauses = async (req, res) => {
@@ -254,7 +254,7 @@ exports.getUserCauses = async (req, res) => {
         console.log("Error: ", error)
         res.status(500).json(error);
     };
-}
+};
 
 // Get Causes that have Donations made by the user (Search by user_id)
 exports.getSupportedCauses = async (req, res) => {
@@ -279,7 +279,7 @@ exports.getSupportedCauses = async (req, res) => {
     } catch (error) {
         return res.status(500).json(err);
     }
-}
+};
 
 // Delete a user from the db
 // NOTE In the future we must delete associated data first
