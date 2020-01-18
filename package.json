@@ -1,65 +1,67 @@
 {
-  "name": "gm_prod_server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "dev": "PORT=3002 nodemon server.js",
-    "start": "nodemon server.js",
-    "migrate": "npx sequelize-cli db:migrate",
-    "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
-    "lint": "eslint ./",
-    "lint-staged": "lint-staged",
-    "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
-    "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
-    "pretest:ci": "cross-env NODE_ENV=ci npm run migrate:reset",
-    "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=10000",
-    "test:watch": "npm run test -- --verbose --watch"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "aws-sdk": "^2.601.0",
-    "bcrypt": "^3.0.7",
-    "bluebird": "^3.7.2",
-    "body-parser": "^1.19.0",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "file-type": "^13.0.3",
-    "fs": "0.0.1-security",
-    "jsonwebtoken": "^8.5.1",
-    "morgan": "^1.9.1",
-    "multiparty": "^4.2.1",
-    "node-fetch": "^2.6.0",
-    "nodemailer": "^6.4.2",
-    "nodemon": "^2.0.2",
-    "passport": "^0.4.1",
-    "passport-http": "^0.3.0",
-    "path": "^0.12.7",
-    "pg": "^7.17.1",
-    "sequelize": "^5.21.3",
-    "sequelize-cli": "^5.5.1",
-    "stripe": "^8.0.1"
-  },
-  "devDependencies": {
-    "cross-env": "^6.0.3",
-    "eslint": "^6.8.0",
-    "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.20.0",
-    "husky": "^4.0.10",
-    "jest": "^24.9.0",
-    "jest-cli": "^24.9.0",
-    "lint-staged": "^9.5.0",
-    "supertest": "^4.0.2"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ]
-  }
+    "name": "gm_prod_server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "dev": "PORT=3002 nodemon server.js",
+        "start": "nodemon server.js",
+        "migrate": "npx sequelize-cli db:migrate",
+        "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+        "lint": "eslint ./",
+        "lint-staged": "lint-staged",
+        "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
+        "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
+        "pretest:ci": "cross-env NODE_ENV=ci npm run migrate:reset",
+        "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=10000",
+        "test:watch": "npm run test -- --verbose --watch",
+        "test:coverage": "npm run test -- --coverage && cat ./coverage/lcov.info | coveralls"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "aws-sdk": "^2.601.0",
+        "bcrypt": "^3.0.7",
+        "bluebird": "^3.7.2",
+        "body-parser": "^1.19.0",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "file-type": "^13.0.3",
+        "fs": "0.0.1-security",
+        "jsonwebtoken": "^8.5.1",
+        "morgan": "^1.9.1",
+        "multiparty": "^4.2.1",
+        "node-fetch": "^2.6.0",
+        "nodemailer": "^6.4.2",
+        "nodemon": "^2.0.2",
+        "passport": "^0.4.1",
+        "passport-http": "^0.3.0",
+        "path": "^0.12.7",
+        "pg": "^7.17.1",
+        "sequelize": "^5.21.3",
+        "sequelize-cli": "^5.5.1",
+        "stripe": "^8.0.1"
+    },
+    "devDependencies": {
+        "coveralls": "^3.0.9",
+        "cross-env": "^6.0.3",
+        "eslint": "^6.8.0",
+        "eslint-config-airbnb-base": "^14.0.0",
+        "eslint-plugin-import": "^2.20.0",
+        "husky": "^4.0.10",
+        "jest": "^24.9.0",
+        "jest-cli": "^24.9.0",
+        "lint-staged": "^9.5.0",
+        "supertest": "^4.0.2"
+    },
+    "jest": {
+        "testEnvironment": "node",
+        "coveragePathIgnorePatterns": [
+            "/node_modules/"
+        ]
+    }
 }
