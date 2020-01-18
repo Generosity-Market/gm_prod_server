@@ -1,13 +1,13 @@
 // Creates a new object but removes the excluded properties
 exports.createNewObject = (obj, exclusions) => {
     const keys = Object.keys(obj);
-    let updatedObject = new Object();
+    const updatedObject = {};
 
-    for (var i = 0; i < keys.length; i++) {
+    for (let i = 0; i < keys.length; i++) {
         if (!exclusions.includes(keys[i])) {
             updatedObject[keys[i]] = obj[keys[i]];
-        };
-    };
+        }
+    }
     return updatedObject;
 };
 
@@ -31,5 +31,5 @@ exports.getExclusions = (excludes) => {
 
         default:
             return [];
-    };
+    }
 };

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const router = express.Router();
 
 const {
@@ -32,7 +33,7 @@ router.get('/:id/causes', getUserCauses);
 router.get('/:id/donations', getSupportedCauses);
 
 // Edit users details
-router.post("/:id/edit", editUser);
+router.post('/:id/edit', editUser);
 
 router.post('/:id/images', setUserImage);
 

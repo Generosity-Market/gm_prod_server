@@ -1,15 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const passport = require('passport');
-const BasicStrategy = require('passport-http').BasicStrategy;
+const { BasicStrategy } = require('passport-http');
 
-const documentation = require("./documentation");
-const users = require("./users");
-const causes = require("./causes");
-const donations = require("./donations");
-const comments = require("./comments");
-const organizations = require("./organizations");
-const preferences = require("./preferences");
+const documentation = require('./documentation');
+const users = require('./users');
+// const causes = require('./causes');
+// const donations = require('./donations');
+// const comments = require('./comments');
+// const organizations = require('./organizations');
+// const preferences = require('./preferences');
 
 const {
     corsPolicy,
@@ -26,7 +26,7 @@ passport.use(new BasicStrategy(
         if (userPassword !== password) return done(null, false);
 
         return done(null, username);
-    }
+    },
 ));
 
 // Allows CORS

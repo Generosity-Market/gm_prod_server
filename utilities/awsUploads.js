@@ -15,7 +15,7 @@ AWS.config.setPromisesDependency(bluebird);
 // create S3 instance
 const s3 = new AWS.S3({ region: 'us-east-1' });
 
-getBucketName = (bucketName) => {
+const getBucketName = (bucketName) => {
     switch (bucketName) {
         case 'cause':
             return process.env.S3_CAUSES_BUCKET;
@@ -24,18 +24,16 @@ getBucketName = (bucketName) => {
         case 'organization':
             return process.env.S3_ORGANIZATIONS_BUCKET;
         default:
-            return;
+            return null;
     }
 };
 
-getUploadParameters = (file, folder) => {
-    return {
-        path: file.path,
-        buffer: fs.createReadStream(file.path),
-        type: file.headers['content-type'],
-        name: `${folder}/${file.originalFilename}`,
-    }
-};
+const getUploadParameters = (file, folder) => ({
+    path: file.path,
+    buffer: fs.createReadStream(file.path),
+    type: file.headers['content-type'],
+    name: `${folder}/${file.originalFilename}`,
+});
 
 const parseUploadData = (req) => new Promise((resolve, reject) => {
     const form = new multiparty.Form();
@@ -50,24 +48,29 @@ const parseUploadData = (req) => new Promise((resolve, reject) => {
         const cover_params = coverImage ? getUploadParameters(coverImage[0], 'coverImages') : null;
 
 
-        return resolve({ bucket_name, profile_params, cover_params, fields });
-    })
+        return resolve({
+            bucket_name, profile_params, cover_params, fields,
+        });
+    });
 });
 
 const getFileFromS3 = async ({ bucket_name, name }) => {
-    const params = { Bucket: getBucketName(bucket_name), Key: name }
+    const params = { Bucket: getBucketName(bucket_name), Key: name };
     try {
         await s3.headObject(params);
         const signedUrl = s3.getSignedUrl('getObject', params);
         const url = signedUrl.substring(0, signedUrl.indexOf('?'));
+        // eslint-disable-next-line no-console
         console.log('File Already exists @ url: ', url);
 
-        return { status: true, url: url };
+        return { status: true, url };
     } catch (error) {
         if (error.statusCode === 404) return { status: false, message: 'File not found' };
-        console.error('Unexpected Error', error)
+        // eslint-disable-next-line no-console
+        console.error('Unexpected Error', error);
+        return { error };
     }
-}
+};
 
 const uploadFile = (args, bucketName) => {
     const params = {
@@ -75,7 +78,7 @@ const uploadFile = (args, bucketName) => {
         Body: args.buffer,
         Bucket: getBucketName(bucketName),
         ContentType: args.type,
-        Key: `${args.name}`
+        Key: `${args.name}`,
     };
     return s3.upload(params).promise();
 };
@@ -89,7 +92,8 @@ exports.findOrCreateFile = async ({ bucket_name, profile_params, cover_params })
         if (existing_profile.status) {
             stateChanges.mainImage = existing_profile.url;
         } else {
-            const profile_response = profile_params && await uploadFile(profile_params, bucket_name);
+            const profile_response = profile_params
+                && await uploadFile(profile_params, bucket_name);
             stateChanges.mainImage = profile_response.Location;
         }
     }
