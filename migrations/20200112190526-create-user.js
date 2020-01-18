@@ -43,10 +43,10 @@ module.exports = {
         phone: {
             type: Sequelize.STRING,
         },
-        coverImage: {
+        cover_image: {
             type: Sequelize.STRING,
         },
-        profileImage: {
+        profile_image: {
             type: Sequelize.STRING,
         },
         createdAt: {

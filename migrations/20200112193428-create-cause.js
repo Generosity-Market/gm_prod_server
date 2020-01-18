@@ -23,6 +23,9 @@ module.exports = {
                 key: 'id',
             },
         },
+        tax_id: {
+            type: Sequelize.STRING,
+        },
         name: {
             type: Sequelize.STRING,
             allowNull: false,
@@ -49,8 +52,7 @@ module.exports = {
             allowNull: false,
         },
         featured: {
-            type: Sequelize.BOOLEAN,
-            allowNull: false,
+            type: Sequelize.BOOLEAN(false),
         },
         cover_image: {
             type: Sequelize.STRING,
@@ -59,6 +61,12 @@ module.exports = {
         profile_image: {
             type: Sequelize.STRING,
             allowNull: false,
+        },
+        completed: {
+            type: Sequelize.BOOLEAN(false),
+        },
+        archived: {
+            type: Sequelize.BOOLEAN(false),
         },
         createdAt: {
             allowNull: false,

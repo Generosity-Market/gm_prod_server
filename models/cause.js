@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     const Cause = sequelize.define('Cause', {
         user_id: DataTypes.INTEGER,
         org_id: DataTypes.INTEGER,
+        tax_id: DataTypes.STRING,
         name: DataTypes.STRING,
         type: DataTypes.STRING,
         goal_amount: DataTypes.INTEGER,
@@ -12,6 +13,8 @@ module.exports = (sequelize, DataTypes) => {
         featured: DataTypes.BOOLEAN,
         cover_image: DataTypes.STRING,
         profile_image: DataTypes.STRING,
+        completed: DataTypes.BOOLEAN,
+        archived: DataTypes.BOOLEAN,
     }, {});
 
     Cause.associate = (models) => {

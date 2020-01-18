@@ -41,12 +41,11 @@ const parseUploadData = (req) => new Promise((resolve, reject) => {
     form.parse(req, (error, fields, files) => {
         if (error) return reject(error);
 
-        const { profileImage, coverImage } = files;
+        const { profile_image, cover_image } = files;
 
         const bucket_name = fields.bucket[0];
-        const profile_params = profileImage ? getUploadParameters(profileImage[0], 'profileImages') : null;
-        const cover_params = coverImage ? getUploadParameters(coverImage[0], 'coverImages') : null;
-
+        const profile_params = profile_image ? getUploadParameters(profile_image[0], 'profileImages') : null;
+        const cover_params = cover_image ? getUploadParameters(cover_image[0], 'coverImages') : null;
 
         return resolve({
             bucket_name, profile_params, cover_params, fields,
@@ -90,11 +89,11 @@ exports.findOrCreateFile = async ({ bucket_name, profile_params, cover_params })
         const existing_profile = await getFileFromS3({ bucket_name, ...profile_params });
 
         if (existing_profile.status) {
-            stateChanges.mainImage = existing_profile.url;
+            stateChanges.profile_image = existing_profile.url;
         } else {
             const profile_response = profile_params
                 && await uploadFile(profile_params, bucket_name);
-            stateChanges.mainImage = profile_response.Location;
+            stateChanges.profile_image = profile_response.Location;
         }
     }
 
@@ -102,10 +101,10 @@ exports.findOrCreateFile = async ({ bucket_name, profile_params, cover_params })
         const existing_cover = await getFileFromS3({ bucket_name, ...cover_params });
 
         if (existing_cover.status) {
-            stateChanges.backgroundImage = existing_cover.url;
+            stateChanges.cover_image = existing_cover.url;
         } else {
             const cover_response = cover_params && await uploadFile(cover_params, bucket_name);
-            stateChanges.backgroundImage = cover_response.Location;
+            stateChanges.cover_image = cover_response.Location;
         }
     }
 

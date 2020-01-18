@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
         state: DataTypes.STRING,
         zipcode: DataTypes.STRING,
         phone: DataTypes.STRING,
-        coverImage: DataTypes.STRING,
-        profileImage: DataTypes.STRING,
+        cover_image: DataTypes.STRING,
+        profile_image: DataTypes.STRING,
     }, {});
 
     User.associate = (models) => {

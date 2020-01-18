@@ -5,7 +5,7 @@ const { BasicStrategy } = require('passport-http');
 
 const documentation = require('./documentation');
 const users = require('./users');
-// const causes = require('./causes');
+const causes = require('./causes');
 // const donations = require('./donations');
 // const comments = require('./comments');
 // const organizations = require('./organizations');
@@ -35,7 +35,7 @@ router.use(corsPolicy);
 router.use('/', documentation);
 router.use('/docs', documentation);
 router.use('/users', users);
-// router.use('/causes', causes);
+router.use('/causes', causes);
 // router.use('/donations', donations);
 // router.use('/comments', comments);
 // router.use('/organizations', organizations);
