@@ -7,6 +7,16 @@ node_js:
 services:
   - postgresql
 
+notifications:
+  rooms: generositymarket:ZeAVzH5Ww7PB50ugNnwl5JuT#cs-prod-server-builds
+  on_success: always  # change: send a notification when the build status changes.
+  on_failure: always  # always: always send a notification.
+  template:
+    - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
+    - "Execution time: *%{duration}*"
+    - "Message: "
+    - "```%{commit_message}```"
+
 cache:
   directories:
     - node_modules
@@ -17,16 +27,6 @@ before_script:
 script: 
   - npm test
   # - npm run build
-
-notifications:
-    rooms: generositymarket:ZeAVzH5Ww7PB50ugNnwl5JuT#cs-prod-server-builds
-    on_success: always  # change: send a notification when the build status changes.
-    on_failure: always  # always: always send a notification.
-    template:
-      - "Repo `%{repository_slug}` *%{result}* build (<%{build_url}|#%{build_number}>) for commit (<%{compare_url}|%{commit}>) on branch `%{branch}`."
-      - "Execution time: *%{duration}*"
-      - "Message: "
-      - "```%{commit_message}```"
 
 # # deploy:
 # #   provider: pages
