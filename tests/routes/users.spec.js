@@ -30,7 +30,7 @@ describe('User Endpoints', () => {
     });
 
     describe('[POST] - /api/users', () => {
-        it('should receive status code 201 (created)', () => {
+        it('should return status code 201 (created)', () => {
             expect(response.statusCode).toEqual(201);
         });
 
@@ -84,7 +84,7 @@ describe('User Endpoints', () => {
             response = await getAll('users');
         });
 
-        it('should receive status code 200 (ok)', () => {
+        it('should return status code 200 (ok)', () => {
             expect(response.statusCode).toEqual(200);
         });
 
