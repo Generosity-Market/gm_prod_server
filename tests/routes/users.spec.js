@@ -21,7 +21,7 @@ const {
 
 const allOptions = { ...details, ...passwords, ...Preferences };
 
-describe('User Endpoints', () => {
+describe('\nUser Endpoints\n', () => {
     let user_id;
     let response;
     beforeAll(async () => {

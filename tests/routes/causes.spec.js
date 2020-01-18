@@ -18,11 +18,7 @@
 //     Preferences,
 // } = user;
 
-describe('Cause Endpoints', () => {
-    it('should pass a test', () => {
-        expect(true).toEqual(true);
-    });
-
+describe('\nCause Endpoints\n', () => {
     describe('[POST] - /api/causes', () => {
         it.todo('should return status code 201 (Created)');
 

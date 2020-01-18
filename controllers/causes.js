@@ -78,7 +78,6 @@ exports.getCauses = async (req, res) => {
             res.status(404).send({ error: 'No causes found' });
         }
     } catch (error) {
-        console.log('Error: ', error);
         res.status(500).json(error);
     }
 };
