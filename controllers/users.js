@@ -87,7 +87,7 @@ exports.loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     if ((!email) || (!password)) {
-        res.status(403).send({ error: 'Fields must not be empty.' });
+        return res.status(403).json({ error: 'Fields must not be empty.' });
     }
 
     try {
@@ -101,17 +101,22 @@ exports.loginUser = async (req, res) => {
             }],
         });
 
+        if (!user) {
+            return res.status(404).json({ error: 'Could not find email in our system.' });
+        }
+
         const userJson = JSON.parse(JSON.stringify(user));
 
         if (bcrypt.compareSync(password, userJson.password)) {
             const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
-            res.status(200).send({ user: userJson, auth_token: token });
+            res.status(200).json({ user: userJson, auth_token: token });
         } else {
-            res.status(403).send({ error: 'Username or password does not match.' });
+            return res.status(403).json({ error: 'Username or password does not match.' });
         }
     } catch (error) {
-        res.status(404).send({ error });
+        return res.status(404).json(error);
     }
+    return false;
 };
 
 // Get all users w/Preferences
@@ -159,46 +164,43 @@ exports.getUserById = async (req, res) => {
 
 // Edit users details
 exports.editUser = async (req, res) => {
-    const { address } = req.body;
-
-    const updatedUser = {
-        ...req.body,
-        ...address,
-    };
-
+    const { Preferences, ...rest } = req.body;
     // // Changing the password to the hashed password
     // updatedUser.password = hashPassword(req.body.password);
 
     try {
-        const user = await User.update(updatedUser, {
+        const user = await User.update(rest, {
             where: {
                 id: req.params.id,
             },
             returning: true,
         });
 
-        res.status('201').send(user[1][0].dataValues);
-        // console.log("User: ", user[1]);
-        // Is good until we start updating preferences for the user
+        const userJson = JSON.parse(JSON.stringify(user[1][0]));
 
-        //   Preference.update(updatedPrefs, {
-        //     where: {
-        //       user_id: req.params.id
-        //     }
-        //   })
-        //     .then(prefs => {
-        //       // Adding the id and Preferences to the user data returned to the front end
-        //       updatedUser['Preferences'] = [updatedPrefs];
-        //       updatedUser.id = Number(req.params.id);
-        //       res.status('201').send(updatedUser);
-        //     })
-        //     .catch(err => {
-        //       res.status('500').send(err);
-        //     })
-        // })
+        if (Preferences) {
+            try {
+                const prefs = await Preference.update(Preferences, {
+                    where: {
+                        user_id: userJson.id,
+                    },
+                    returning: true,
+                });
+
+                const prefsJson = JSON.parse(JSON.stringify(prefs[1][0]));
+
+                userJson.Preferences = prefsJson;
+                return res.status(201).send(userJson);
+            } catch (error) {
+                res.status(500).send(error);
+            }
+        }
+
+        res.status(201).send(userJson);
     } catch (error) {
-        res.status('500').send(error);
+        res.status(500).send(error);
     }
+    return false;
 };
 
 // Upload user images to AWS S3 bucket, set user image urls
@@ -254,7 +256,6 @@ exports.getUserCauses = async (req, res) => {
             res.status(404).send({ error: 'No causes found' });
         }
     } catch (error) {
-        console.log('Error: ', error);
         res.status(500).json(error);
     }
 };
