@@ -3,29 +3,24 @@
 const { user } = require('../../__mocks__');
 
 const {
-    createItem,
     editItem,
     getAll,
     getById,
     login,
+    registerUser,
 } = require('../utils');
 
 const {
     details,
     editedDetails,
     editedPreferences,
-    passwords,
-    Preferences,
 } = user;
-
-
-const allOptions = { ...details, ...passwords, ...Preferences };
 
 describe('\nUser Endpoints\n', () => {
     let user_id;
     let response;
     beforeAll(async () => {
-        response = await createItem('users', allOptions);
+        response = await registerUser();
         user_id = response.body.id;
     });
 
@@ -61,19 +56,19 @@ describe('\nUser Endpoints\n', () => {
         });
 
         it('should throw an error when email or password is empty', async () => {
-            response = await login({ email: '', password: '' });
+            response = await login({ email: '', password: '' }, true);
             expect(response.statusCode).toEqual(403);
             expect(response.body.error).toBe('Fields must not be empty.');
         });
 
         it('should throw an error when passwords don\'t match', async () => {
-            response = await login({ email: 'test_user@testemail.com', password: 'incorrect_password' });
+            response = await login({ email: 'test_user@testemail.com', password: 'incorrect_password' }, true);
             expect(response.statusCode).toEqual(403);
             expect(response.body.error).toBe('Username or password does not match.');
         });
 
         it('should throw an error when the email isn\'t found', async () => {
-            response = await login({ email: 'test_testy@testemail.com', password: 'TestPassword_0123' });
+            response = await login({ email: 'test_testy@testemail.com', password: 'TestPassword_0123' }, true);
             expect(response.statusCode).toEqual(404);
             expect(response.body.error).toBe('Could not find email in our system.');
         });

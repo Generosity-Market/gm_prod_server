@@ -18,7 +18,7 @@ router.get('/', getCauses);
 // Get a cause by the id w/Preferences, Donations, and Comments
 router.get('/:id', getCauseById);
 
-// TODO: Edit cause details
-router.put('/:id', editCauseById);
+// Edit cause details by the cuase id
+router.post('/:id/edit', editCauseById);
 
 module.exports = router;

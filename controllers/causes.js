@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+// const sequelize = require('sequelize');
 const { awsUtils } = require('../utilities');
 
 const {
@@ -53,11 +53,12 @@ exports.createCause = async (req, res) => {
 // TODO: add pagination and/or infinite scroll???
 exports.getCauses = async (req, res) => {
     try {
+        // eslint-disable-next-line max-len
+        // const query = '(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
         const causes = await Cause.findAll({
-            attributes: Object.keys(Cause.attributes).concat([
-                [sequelize.literal('(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."causeID" = "Cause"."id")'),
-                    'totalRaised'],
-            ]),
+            // attributes: Object.keys(Cause.attributes).concat([
+            //     [sequelize.literal(query), 'totalRaised'],
+            // ]),
             include: [{
                 model: Preference,
                 as: 'Preferences',
@@ -85,12 +86,13 @@ exports.getCauses = async (req, res) => {
 // Get a cause by the id w/Preferences, Donations, and Comments, and totalRaised
 exports.getCauseById = async (req, res) => {
     try {
+        // eslint-disable-next-line max-len
+        // const query ='(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
         const cause = await Cause.findOne({
             where: { id: req.params.id },
-            attributes: Object.keys(Cause.attributes).concat([
-                [sequelize.literal('(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."causeID" = "Cause"."id")'),
-                    'totalRaised'],
-            ]),
+            // attributes: Object.keys(Cause.attributes).concat([
+            //     [sequelize.literal(query), 'totalRaised'],
+            // ]),
             include: [{
                 model: Preference,
                 as: 'Preferences',
@@ -105,30 +107,35 @@ exports.getCauseById = async (req, res) => {
             }],
         });
 
-        res.status(200).send(cause);
+        if (cause) {
+            res.status(200).send(cause);
+        } else {
+            res.status(404).send({ error: 'Cause not found' });
+        }
     } catch (error) {
-        res.status(404).send({ error: 'Cause not found' });
+        res.status(500).send(error);
     }
 };
 
 // TODO: NOTE will need to find out how to remove an image from Amazon S3 as well
 exports.editCauseById = async (req, res) => {
-    const { Preferences } = req.body;
+    const { Preferences, ...rest } = req.body;
+
     try {
-        const updatedCause = await Cause.update(res.body, {
+        const cause = await Cause.update(rest, {
             where: {
                 id: req.params.id,
             },
             returning: true,
         });
 
-        const causeJson = JSON.parse(JSON.stringify(updatedCause[1][0]));
+        const causeJson = JSON.parse(JSON.stringify(cause[1][0]));
 
         if (Preferences) {
             try {
                 const prefs = await Preference.update(Preferences, {
                     where: {
-                        user_id: causeJson.id,
+                        cause_id: causeJson.id,
                     },
                     returning: true,
                 });
@@ -141,9 +148,10 @@ exports.editCauseById = async (req, res) => {
                 res.status(500).send(error);
             }
         }
+
+        return res.status(201).send(causeJson);
     } catch (error) {
         res.status(500).send(error);
     }
-
     return false;
 };
