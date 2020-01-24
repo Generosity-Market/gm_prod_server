@@ -15,7 +15,7 @@
         "lint-staged": "lint-staged",
         "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
         "test": "cross-env NODE_ENV=test jest --testTimeout=10000",
-        "pretest:ci": "cross-env NODE_ENV=ci npm run migrate:reset",
+        "pretest:ci": "npm run lint && cross-env NODE_ENV=ci npm run migrate:reset",
         "test:ci": "cross-env NODE_ENV=ci jest --testTimeout=10000 --colors",
         "test:watch": "npm run test -- --verbose --watch",
         "test:coverage": "npm run test -- --coverage && cat ./coverage/lcov.info | coveralls"
