@@ -4,6 +4,11 @@
         "jest": true,
         "node": true
     },
+    "ignorePatterns": [
+        "coverage/",
+        "__mocks__/",
+        "node_modules/"
+    ],
     "rules": {
         "indent": [
             "error",
