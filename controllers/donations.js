@@ -1,28 +1,33 @@
-// const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
+const { stripe } = require('../utilities');
+const { sendEmail } = require('../services');
+
 const {
     Donation,
     // Comment,
+    User,
 } = require('../models/index');
 
-const { stripe } = require('../utilities');
-
-// const { sendEmail } = require('../services/email/nodeMailer');
-
-// This route will also add comments (if applicable)
-// TODO: for ppl who are not signed in, lets create a user before making the charge.
-// TODO: Don't use a password for now
-// TODO: We also need to update the user schema to not require a password...
-
-// ALSO TODO: Convert to async/await...
+// Creates a stripe charge, sends confirmation email, and saves data to database
 exports.createDonation = async (req, res) => {
     const {
         cart,
         user_id,
-        // amount,
         ...rest
     } = req.body;
 
     try {
+        const email = rest.email.toLowerCase();
+        // NOTE: Make sure a user is created one way or another upon donation
+        // ...in case they sign up later we can link the donation to the email used
+        const user = await User.findOrCreate({
+            where: { email },
+            defaults: { email },
+        });
+
+        if (!user || user.error) {
+            res.status(500).send({ error: 'error finding or creating user' });
+        }
+
         const customer = await stripe.createCustomer(req.body);
         const charge = await stripe.createCharge({ ...req.body, customer });
 
@@ -36,13 +41,7 @@ exports.createDonation = async (req, res) => {
                 stripe_customer_id: charge.customer,
             }));
             // console.log("Charge: ", charge);
-
-            // sendEmail('donation', {
-            //     amount,
-            //     cart,
-            //     email: rest.email,
-            //     receipt_url: charge.receipt_url,
-            // });
+            sendEmail('donation', { ...req.body, charge });
 
             const donation = await Donation.bulkCreate(bulkDonations);
 
@@ -55,8 +54,4 @@ exports.createDonation = async (req, res) => {
     } catch (error) {
         res.status(500).send(error);
     }
-
-    // NOTE: user_id and amount will be used in both donation and comment functions
-    // In the callback of the donation function, ...
-    // ...use the returned id as the donation_id for the comment function.
 };
