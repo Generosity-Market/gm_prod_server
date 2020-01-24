@@ -33,8 +33,9 @@ router.get('/:id/causes', getUserCauses);
 router.get('/:id/donations', getSupportedCauses);
 
 // Edit users details
-router.post('/:id/edit', editUser);
+router.put('/:id/edit', editUser);
 
+// Post user images
 router.post('/:id/images', setUserImage);
 
 // Delete a user from the db

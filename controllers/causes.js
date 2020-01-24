@@ -53,6 +53,7 @@ exports.createCause = async (req, res) => {
 // TODO: add pagination and/or infinite scroll???
 exports.getCauses = async (req, res) => {
     try {
+        // TODO: Why doesn't this work here? Is it bc the db is empty on donations?
         // eslint-disable-next-line max-len
         // const query = '(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
         const causes = await Cause.findAll({
@@ -86,13 +87,17 @@ exports.getCauses = async (req, res) => {
 // Get a cause by the id w/Preferences, Donations, and Comments, and totalRaised
 exports.getCauseById = async (req, res) => {
     try {
+        // TODO: Why doesn't this work here? Is it bc the db is empty on donations?
         // eslint-disable-next-line max-len
-        // const query ='(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
+        // const query = '(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
         const cause = await Cause.findOne({
             where: { id: req.params.id },
             // attributes: Object.keys(Cause.attributes).concat([
             //     [sequelize.literal(query), 'totalRaised'],
             // ]),
+            // attributes: [
+            //     [sequelize.literal(query), 'totalRaised'],
+            // ],
             include: [{
                 model: Preference,
                 as: 'Preferences',

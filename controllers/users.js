@@ -285,7 +285,7 @@ exports.getSupportedCauses = async (req, res) => {
 };
 
 // Delete a user from the db
-// NOTE In the future we must delete associated data first
+// NOTE: In the future we must delete associated data first
 // TODO: add onDelete: 'CASCADE' to model??
 exports.deleteUser = async (req, res) => {
     try {
