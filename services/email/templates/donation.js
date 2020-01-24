@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const htmlBody = require('./body');
 const styles_donation = require('./styles/donation');
 
@@ -34,26 +35,30 @@ const renderCauses = (cart) => {
     return html;
 };
 
-const htmlContent = (mailData) => (
-    `
+const htmlContent = ({
+    amount,
+    cart,
+    receipt_url,
+}) => (
+        `
     <h2 class="thank_you">Thank you for supporting these great causes</h2>
     <div class="main_content">
 
         <h1 class="donation_message">
-            Your total donation: <span>$${mailData.amount / 100}</span>
+            Your total donation: <span>$${amount / 100}</span>
         </h1>
         <p>
             Click to view your 
-            <a href="${mailData.receipt_url}">
+            <a href="${receipt_url}">
                 Stripe Receipt
             </a>
         </p>
 
         <div class="cause_wrapper">
-            ${renderCauses(mailData.cart)}
+            ${renderCauses(cart)}
         </div>
     </div>`
-);
+    );
 
 
 exports.template = (mailData) => ({
