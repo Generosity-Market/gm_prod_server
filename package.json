@@ -11,6 +11,7 @@
         "start": "nodemon server.js",
         "migrate": "npx sequelize-cli db:migrate",
         "migrate:reset": "npx sequelize-cli db:migrate:undo:all && npm run migrate",
+        "seed:db": "npx sequelize-cli db:seed:all",
         "lint": "eslint ./",
         "lint-staged": "lint-staged",
         "pretest": "cross-env NODE_ENV=test npm run migrate:reset",
@@ -57,11 +58,5 @@
         "jest-cli": "^24.9.0",
         "lint-staged": "^9.5.0",
         "supertest": "^4.0.2"
-    },
-    "jest": {
-        "testEnvironment": "node",
-        "coveragePathIgnorePatterns": [
-            "/node_modules/"
-        ]
     }
 }
