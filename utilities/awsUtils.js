@@ -2,6 +2,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
+const { logger } = require('../utilities');
 
 // configure the keys for accessing AWS
 AWS.config.update({
@@ -60,13 +61,13 @@ const getFileFromS3 = async ({ bucket_name, name }) => {
         const signedUrl = s3.getSignedUrl('getObject', params);
         const url = signedUrl.substring(0, signedUrl.indexOf('?'));
         // eslint-disable-next-line no-console
-        console.log('File Already exists @ url: ', url);
+        logger.log('File Already exists @ url: ', url);
 
         return { status: true, url };
     } catch (error) {
         if (error.statusCode === 404) return { status: false, message: 'File not found' };
         // eslint-disable-next-line no-console
-        console.error('Unexpected Error', error);
+        logger.error('Unexpected Error', error);
         return { error };
     }
 };

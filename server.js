@@ -1,22 +1,19 @@
 require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
-// const path = require('path');
 const morgan = require('morgan');
-// const bcrypt = require('bcrypt');
 const passport = require('passport');
 const { BasicStrategy } = require('passport-http');
 
-const routes = require('./routes/index');
-const { handleError } = require('./utilities/error');
-
-const { User } = require('./models/index');
-
+const { handleError, logger } = require('./utilities');
 const { authenticateUser } = require('./middleware');
+
+const routes = require('./routes/index');
+const { User } = require('./models/index');
 
 const app = express();
 
-// Required for production app...setting the port
+// NOTE: Required for production app...setting the port
 app.set('port', (process.env.PORT || 3000));
 
 app.use(bodyParser.json());
@@ -47,18 +44,17 @@ passport.deserializeUser((id, done) => {
 });
 
 app.use('/api', routes);
-app.use(routes);
 
 app.use((err, req, res) => {
     handleError(err, res);
 });
 
-// the 'if' is used for testing.
-// getting the port from above..do this for production instead of localhost:3000
+// NOTE: This conditional is excluded during testing
 if (require.main === module) {
-    app.listen(app.get('port'), () => {
+    const port = app.get('port');
+    app.listen(port, () => {
         // eslint-disable-next-line no-console
-        console.log('Node app is running on port', app.get('port'));
+        logger.success('Node app is running on port', port);
     });
 }
 

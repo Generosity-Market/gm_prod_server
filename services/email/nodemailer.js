@@ -1,7 +1,8 @@
 const nodemailer = require('nodemailer');
 const templates = require('./templates');
+const { logger } = require('../../utilities');
 
-// TODO Determine what other types of emails we need to send and customize this service
+// TODO: Determine what other types of emails we need to send and customize this service
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -27,11 +28,9 @@ exports.sendEmail = (type, mailData) => {
 
     transporter.sendMail(options, (error, info) => {
         if (error) {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            logger.error(error);
         } else {
-            // eslint-disable-next-line no-console
-            console.log(`Email sent: ${info.response}`);
+            logger.success('Email sent: ', info.response);
         }
     });
 };
