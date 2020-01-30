@@ -11,6 +11,8 @@ module.exports = {
             state: 'GA',
             zipcode: '30350',
             phone: '5551234567',
+            salt: '$2b$10$L773C3E.g43uo7QozLPn.u',
+            password: '$2b$10$wHLFSZSpjetjiAIQ4o06gOHiXT./U6r6LzDbDx2EZk38xyNfRff7q',
             cover_image: 'https://generosity-market-user-images.s3.amazonaws.com/coverImages/hot_air_balloon.jpg',
             profile_image: 'https://generosity-market-user-images.s3.amazonaws.com/profileImages/Joe-logo.jpg',
             createdAt: new Date(),
