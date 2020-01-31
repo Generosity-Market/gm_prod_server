@@ -18,7 +18,7 @@ const {
 
 const app = express();
 
-// NOTE: Required for production app...setting the port
+// NOTE: Required for production app
 app.set('port', (process.env.PORT || 3000));
 
 app.use(bodyParser.json());
