@@ -60,14 +60,12 @@ const getFileFromS3 = async ({ bucket_name, name }) => {
         await s3.headObject(params);
         const signedUrl = s3.getSignedUrl('getObject', params);
         const url = signedUrl.substring(0, signedUrl.indexOf('?'));
-        // eslint-disable-next-line no-console
         logger.log('File Already exists @ url: ', url);
 
         return { status: true, url };
     } catch (error) {
         if (error.statusCode === 404) return { status: false, message: 'File not found' };
-        // eslint-disable-next-line no-console
-        logger.error('Unexpected Error', error);
+        logger.error('Unexpected Error: ', error);
         return { error };
     }
 };

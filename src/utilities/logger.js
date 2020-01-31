@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const chalk = require('chalk');
-const pkg = require('../package.json');
+const pkg = require('../../package.json');
 
 const color = {
     log: 'dodgerblue',

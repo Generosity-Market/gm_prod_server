@@ -1,9 +1,8 @@
 const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-// const passport = require('passport');
-// const { BasicStrategy } = require('passport-http');
+
 const { awsUtils } = require('../utilities');
+const authUtils = require('../auth/utils');
 
 const {
     User,
@@ -11,27 +10,7 @@ const {
     Cause,
     Donation,
     Comment,
-} = require('../models/index');
-
-const {
-    // createNewObject,
-    hashPassword,
-    // getExclusions,
-} = require('../utilities');
-
-//-----------------------
-//      User Routes
-//-----------------------
-
-// Passport Basic Authentication Strategy
-// passport.use(new BasicStrategy(
-//     (username, password, done) => {
-//         const userPassword = users[username];
-//         if (!userPassword) { return done(null, false); }
-//         if (userPassword !== password) { return done(null, false); }
-//         return done(null, username);
-//     },
-// ));
+} = require('../../models');
 
 // Signup a user, returns user data w/Preferences
 exports.registerUser = async (req, res) => {
@@ -55,7 +34,7 @@ exports.registerUser = async (req, res) => {
         ...rest,
         salt,
         email: email.toLowerCase(),
-        password: hashPassword(password),
+        password: authUtils.hashPassword(password),
     };
 
     if (password === confirmPassword) {
@@ -108,7 +87,7 @@ exports.loginUser = async (req, res) => {
         const userJson = JSON.parse(JSON.stringify(user));
 
         if (bcrypt.compareSync(password, userJson.password)) {
-            const token = jwt.sign({ foo: 'bar' }, 'shhhhh');
+            const token = authUtils.signJwt({ id: user.id });
             res.status(200).json({ user: userJson, auth_token: token });
         } else {
             return res.status(403).json({ error: 'Username or password does not match.' });

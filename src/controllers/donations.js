@@ -5,7 +5,7 @@ const {
     Donation,
     // Comment,
     User,
-} = require('../models/index');
+} = require('../../models');
 
 // Creates a stripe charge, sends confirmation email, and saves data to database
 exports.createDonation = async (req, res) => {

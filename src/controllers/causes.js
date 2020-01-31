@@ -7,7 +7,7 @@ const {
     Donation,
     Preference,
     // User,
-} = require('../models/index');
+} = require('../../models');
 
 // Create a cause
 exports.createCause = async (req, res) => {

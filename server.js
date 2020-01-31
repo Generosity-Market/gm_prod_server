@@ -3,13 +3,18 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
-const { BasicStrategy } = require('passport-http');
+const { Strategy } = require('passport-jwt');
+const authConfig = require('./src/auth/config');
+// const { BasicStrategy } = require('passport-http');
 
-const { handleError, logger } = require('./utilities');
-const { authenticateUser } = require('./middleware');
+const routes = require('./src/routes');
+const { User } = require('./models');
+const { verifyToken } = require('./src/auth/middleware');
 
-const routes = require('./routes/index');
-const { User } = require('./models/index');
+const {
+    handleError,
+    logger,
+} = require('./src/utilities');
 
 const app = express();
 
@@ -22,7 +27,9 @@ app.use(morgan('dev'));
 
 app.use(passport.initialize());
 
-passport.use(new BasicStrategy(authenticateUser));
+// passport.use(new BasicStrategy(authUser));
+
+passport.use(new Strategy(authConfig, verifyToken));
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
