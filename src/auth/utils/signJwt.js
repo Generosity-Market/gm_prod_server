@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
+const { secret, jwt_options } = require('../config');
 
-const options = {
-    expiresIn: '90 days',
-};
-
-const signJwt = (payload) => jwt.sign(payload, process.env.JWT_SECRET, options);
+const signJwt = (payload) => jwt.sign(payload, secret, jwt_options);
 
 module.exports = signJwt;

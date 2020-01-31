@@ -3,13 +3,17 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const passport = require('passport');
-const { Strategy } = require('passport-jwt');
-const authConfig = require('./src/auth/config');
-// const { BasicStrategy } = require('passport-http');
+const { Strategy: JwtStrategy } = require('passport-jwt');
+const { BasicStrategy } = require('passport-http');
 
 const routes = require('./src/routes');
-const { User } = require('./models');
-const { verifyToken } = require('./src/auth/middleware');
+
+// Authentication helpers
+const {
+    verifyToken,
+    verifyUser,
+} = require('./src/auth/middleware');
+const authConfig = require('./src/auth/config');
 
 const {
     handleError,
@@ -27,28 +31,8 @@ app.use(morgan('dev'));
 
 app.use(passport.initialize());
 
-// passport.use(new BasicStrategy(authUser));
-
-passport.use(new Strategy(authConfig, verifyToken));
-
-passport.serializeUser((user, done) => {
-    done(null, user.id);
-});
-
-passport.deserializeUser((id, done) => {
-    User.findOne({
-        where: {
-            id,
-        },
-    })
-        .then((user) => {
-            if (user == null) {
-                done(new Error('Wrong user id'));
-            }
-
-            done(null, user);
-        });
-});
+passport.use(new BasicStrategy(verifyUser));
+passport.use(new JwtStrategy(authConfig.options, verifyToken));
 
 app.use('/api', routes);
 

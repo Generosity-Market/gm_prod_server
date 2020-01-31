@@ -1,8 +1,8 @@
 const { User } = require('../../../models');
 
 const verifyToken = async (jwt_payload, done) => {
+    console.log('jwt_payload: ', jwt_payload);
     try {
-        console.log('jwt_payload: ', jwt_payload);
         const user = await User.findOne({
             where: {
                 id: jwt_payload.id,
