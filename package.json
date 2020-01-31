@@ -42,11 +42,13 @@
         "nodemon": "^2.0.2",
         "passport": "^0.4.1",
         "passport-http": "^0.3.0",
+        "passport-jwt": "^4.0.0",
         "path": "^0.12.7",
         "pg": "^7.17.1",
         "sequelize": "^5.21.3",
         "sequelize-cli": "^5.5.1",
-        "stripe": "^8.0.1"
+        "stripe": "^8.0.1",
+        "supertest": "^4.0.2"
     },
     "devDependencies": {
         "coveralls": "^3.0.9",
@@ -57,7 +59,6 @@
         "husky": "^4.0.10",
         "jest": "^24.9.0",
         "jest-cli": "^24.9.0",
-        "lint-staged": "^9.5.0",
-        "supertest": "^4.0.2"
+        "lint-staged": "^9.5.0"
     }
 }
