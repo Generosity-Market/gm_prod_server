@@ -23,14 +23,17 @@ describe('\nCause Endpoints\n', () => {
     let user_id;
     let cause_id;
     let response;
+    let token;
+
     beforeAll(async () => {
         user = await login();
         user_id = user.body.id;
+        token = user.body.auth_token;
     });
 
     describe('[POST] - /api/causes', () => {
         beforeAll(async () => {
-            response = await createItem('causes', { user_id, ...details });
+            response = await createItem('causes', { user_id, ...details }, token);
             cause_id = response.body.id;
         });
 
@@ -50,7 +53,7 @@ describe('\nCause Endpoints\n', () => {
 
     describe('[GET] - /api/causes', () => {
         beforeAll(async () => {
-            response = await getAll('causes');
+            response = await getAll('causes', token);
         });
 
         it('should return status code 200 (ok)', () => {
@@ -72,7 +75,7 @@ describe('\nCause Endpoints\n', () => {
 
     describe('[GET] - /api/causes/:id', () => {
         beforeAll(async () => {
-            response = await getById('causes', cause_id);
+            response = await getById('causes', cause_id, token);
         });
 
         it('should return status code 200 (ok)', () => {
@@ -94,7 +97,7 @@ describe('\nCause Endpoints\n', () => {
 
     describe('[PUT] - /api/causes/:id/edit', () => {
         beforeAll(async () => {
-            response = await editItem('causes', cause_id, { ...editedDetails, ...editedPreferences });
+            response = await editItem('causes', cause_id, { ...editedDetails, ...editedPreferences }, token);
         });
 
         it('should return status code 201 (created)', async () => {

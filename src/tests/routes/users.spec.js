@@ -19,6 +19,7 @@ const {
 describe('\nUser Endpoints\n', () => {
     let user_id;
     let response;
+    let token;
     beforeAll(async () => {
         response = await registerUser();
         user_id = response.body.id;
@@ -41,6 +42,7 @@ describe('\nUser Endpoints\n', () => {
     describe('[POST] - /api/users/login', () => {
         beforeAll(async () => {
             response = await login();
+            token = response.body.auth_token;
         });
 
         it('should return status code 200 (ok)', () => {
@@ -98,7 +100,7 @@ describe('\nUser Endpoints\n', () => {
 
     describe('[GET] - /api/users/:id', () => {
         beforeAll(async () => {
-            response = await getById('users', user_id);
+            response = await getById('users', user_id, token);
         });
 
         it('should return status code 200 (ok)', async () => {
@@ -120,7 +122,7 @@ describe('\nUser Endpoints\n', () => {
 
     describe('[POST] - /api/users/:id/edit', () => {
         beforeAll(async () => {
-            response = await editItem('users', user_id, { ...editedDetails, ...editedPreferences });
+            response = await editItem('users', user_id, { ...editedDetails, ...editedPreferences }, token);
         });
 
         it('should return status code 201 (created)', async () => {

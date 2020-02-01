@@ -1,6 +1,6 @@
 const request = require('supertest');
 const app = require('../../../server');
-const regiesterUser = require('./registerUser');
+const registerUser = require('./registerUser');
 
 const {
     user: {
@@ -16,7 +16,8 @@ const login = async (credentials = creds, throwError) => {
     response = await request(app).post('/api/users/login').send(credentials);
 
     if (response.error && !throwError) {
-        response = await regiesterUser();
+        await registerUser();
+        response = await login();
     }
 
     return response;
