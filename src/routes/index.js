@@ -34,12 +34,14 @@ router.use(corsPolicy);
 
 router.use('/', documentation);
 router.use('/docs', documentation);
-router.use('/users', users);
-router.use('/causes', causes);
-// router.use('/donations', donations);
-// router.use('/comments', comments);
-// router.use('/organizations', organizations);
-// router.use('/preferences', preferences);
+router.use('/api', documentation);
+router.use('/api/docs', documentation);
+router.use('/api/users', users);
+router.use('/api/causes', causes);
+// router.use('/api/donations', donations);
+// router.use('/api/comments', comments);
+// router.use('/api/organizations', organizations);
+// router.use('/api/preferences', preferences);
 
 
 module.exports = router;

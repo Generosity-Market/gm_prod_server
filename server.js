@@ -34,7 +34,7 @@ app.use(passport.initialize());
 passport.use(new BasicStrategy(verifyUser));
 passport.use(new JwtStrategy(authConfig.options, verifyToken));
 
-app.use('/api', routes);
+app.use(routes);
 
 app.use((err, req, res) => {
     handleError(err, res);
