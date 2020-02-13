@@ -31,7 +31,7 @@
 
 ## Setup
 
-To use this code:
+To contribute to this repo:
 
 - Clone this repository (`git clone https://github.com/Generosity-Market/gm_prod_server.git`) to a local directory.
 - `cd` into the directory.

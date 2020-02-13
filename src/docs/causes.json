@@ -1,0 +1,147 @@
+{
+    "paths": {
+        "/causes": {
+            "post": {
+                "tags": [
+                    "Causes"
+                ],
+                "summary": "Create new cause in system",
+                "parameters": [
+                    {
+                        "name": "cause",
+                        "in": "body",
+                        "description": "Cause that we want to create",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "New cause is created",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Causes"
+                ],
+                "summary": "Get all causes in system",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Causes"
+                        }
+                    }
+                }
+            }
+        },
+        "/causes/{id}": {
+            "parameters": [
+                {
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "ID of cause that we want to find",
+                    "type": "string"
+                }
+            ],
+            "get": {
+                "tags": [
+                    "Causes"
+                ],
+                "summary": "Get cause with given id",
+                "responses": {
+                    "200": {
+                        "description": "Cause is found",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Delete cause with given id",
+                "tags": [
+                    "Causes"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cause is deleted",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "summary": "Update cause with give id",
+                "tags": [
+                    "Causes"
+                ],
+                "parameters": [
+                    {
+                        "name": "cause",
+                        "in": "body",
+                        "description": "Cause with new values of properties",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Cause is updated",
+                        "schema": {
+                            "$ref": "#/definitions/Cause"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Cause": {
+            "required": [
+                "name",
+                "_id"
+            ],
+            "properties": {
+                "_id": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "name": {
+                    "type": "string",
+                    "uniqueItems": true
+                },
+                "goal_amount": {
+                    "type": "integer"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "purpose": {
+                    "type": "string"
+                },
+                "cover_image": {
+                    "type": "string"
+                },
+                "profile_image": {
+                    "type": "string"
+                }
+            }
+        },
+        "Causes": {
+            "type": "array",
+            "$ref": "#/definitions/Cause"
+        }
+    }
+}
