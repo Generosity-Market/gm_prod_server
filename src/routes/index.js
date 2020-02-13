@@ -2,6 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const swaggerUi = require('swagger-ui-express');
 
+const { redirectTo } = require('../utilities');
+
 // Route collections
 const documentation = require('./documentation');
 const users = require('./users');
@@ -20,9 +22,11 @@ router.use('/api/donations', donations);
 // router.use('/api/comments', comments);
 // router.use('/api/organizations', organizations);
 // router.use('/api/preferences', preferences);
-router.use('/', swaggerUi.serve, documentation);
-router.use('/docs', swaggerUi.serve, documentation);
-router.use('/api', (req, res) => res.status(200).send('See /api/docs for more info'));
+
+// Redirect routes
+router.get(['/', '/docs', '/api'], redirectTo('/api/docs'));
+
+// All other routes
 router.use('*', (req, res) => res.status(404).send('Not found'));
 
 module.exports = router;
