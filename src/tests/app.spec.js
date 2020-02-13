@@ -11,12 +11,12 @@ describe('\nApp startup\n', () => {
             response = await visit('/api');
         });
 
-        it('should return status code 200 (ok)', () => {
-            expect(response.statusCode).toBe(200);
+        it('should return status code 302 (redirect', () => {
+            expect(response.statusCode).toBe(302);
         });
 
         it('should return more info message', () => {
-            expect(response.text).toEqual('See /api/docs for more info');
+            expect(response.text).toEqual('Found. Redirecting to /api/docs');
         });
     });
 

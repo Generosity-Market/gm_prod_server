@@ -1,6 +1,6 @@
 language: node_js
 
-node_js: 
+node_js:
   - "lts/*"
 
 services:
@@ -13,7 +13,7 @@ cache:
 before_script:
   - psql -c 'create database gm_prod_server_test;' -U postgres
 
-script: 
+script:
   - npm run test:ci
 
 # # deploy:
