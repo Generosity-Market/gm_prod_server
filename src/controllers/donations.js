@@ -24,8 +24,8 @@ exports.createDonation = async (req, res) => {
             defaults: { email },
         });
 
-        if (!user || user.error) {
-            res.status(500).send({ error: 'error finding or creating user' });
+        if (!user.length || user.error) {
+            return res.status(500).send({ error: 'error finding or creating user' });
         }
 
         const customer = await stripe.createCustomer(req.body);
@@ -40,18 +40,19 @@ exports.createDonation = async (req, res) => {
                 stripe_id: charge.id,
                 stripe_customer_id: charge.customer,
             }));
-            // console.log("Charge: ", charge);
+
             sendEmail('donation', { ...req.body, charge });
 
             const donation = await Donation.bulkCreate(bulkDonations);
 
             if (donation && !donation.error) {
-                res.status(201).json({ status: 'Success', response: donation, charge });
-            } else {
-                res.status(500).send({ status: 'failed', error: donation.error });
+                return res.status(201).json({ status: 'Success', donations: donation, charge });
             }
+
+            return res.status(500).send({ status: 'failed', error: donation.error });
         }
     } catch (error) {
-        res.status(500).send(error);
+        return res.status(500).send(error);
     }
+    return false;
 };

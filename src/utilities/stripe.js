@@ -1,6 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_TEST_KEY);
 
-const createCustomer = ({ email, token }) => stripe.create.customer({
+const createCustomer = ({ email, token }) => stripe.customers.create({
     email,
     card: token.id,
 });

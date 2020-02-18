@@ -1,4 +1,4 @@
-const sequelize = require('sequelize');
+// const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const { awsUtils } = require('../utilities');
@@ -210,12 +210,6 @@ exports.getUserCauses = async (req, res) => {
             where: {
                 user_id: req.params.id,
             },
-            attributes: Object.keys(Cause.attributes).concat([
-                [
-                    sequelize.literal('(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")'),
-                    'totalRaised',
-                ],
-            ]),
             include: [{
                 model: Preference,
                 as: 'Preferences',
@@ -243,7 +237,7 @@ exports.getUserCauses = async (req, res) => {
 exports.getSupportedCauses = async (req, res) => {
     try {
         const donations = await Cause.findAll({
-            // attributes: ['name', 'mainImage', 'id'],
+            // attributes: ['name', 'profile_image', 'id'],
             include: [{
                 where: {
                     user_id: req.params.id,

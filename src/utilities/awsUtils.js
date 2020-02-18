@@ -2,7 +2,7 @@ const fs = require('fs');
 const AWS = require('aws-sdk');
 const bluebird = require('bluebird');
 const multiparty = require('multiparty');
-const { logger } = require('../utilities');
+const logger = require('./logger');
 
 // configure the keys for accessing AWS
 AWS.config.update({
