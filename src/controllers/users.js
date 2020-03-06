@@ -199,7 +199,7 @@ exports.setUserImage = async (req, res) => {
 
         return res.status('201').json(user[1][0]);
     } catch (error) {
-        return res.status(500).send(error);
+        return res.status(500).send({ error });
     }
 };
 
