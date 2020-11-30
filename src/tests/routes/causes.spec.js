@@ -38,7 +38,7 @@ describe('\nCause Endpoints\n', () => {
         });
 
         it('should return status code 201 (Created)', () => {
-            console.log('Response: ', response);
+            // console.log('Response: ', response);
             expect(response.statusCode).toEqual(201);
         });
 
