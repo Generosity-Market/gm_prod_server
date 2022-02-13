@@ -23,16 +23,20 @@ module.exports = {
         ...baseConfig,
         url: process.env.DATABASE_URL,
         dialectOptions: {
-            ssl: true,
-            rejectUnauthorized: false,
+            ssl: {
+                required: true,
+                rejectUnauthorized: false,
+            },
         },
     },
     production: {
         ...baseConfig,
         url: process.env.DATABASE_URL,
         dialectOptions: {
-            ssl: true,
-            rejectUnauthorized: false,
+            ssl: {
+                required: true,
+                rejectUnauthorized: false,
+            },
         },
     },
 };
