@@ -24,6 +24,7 @@ module.exports = {
         url: process.env.DATABASE_URL,
         dialectOptions: {
             ssl: true,
+            rejectUnauthorized: false,
         },
     },
     production: {
@@ -31,6 +32,7 @@ module.exports = {
         url: process.env.DATABASE_URL,
         dialectOptions: {
             ssl: true,
+            rejectUnauthorized: false,
         },
     },
 };
