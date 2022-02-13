@@ -1,5 +1,10 @@
+const allowedDomains = [
+    'http://localhost:3001',
+    'https://generosity-market-stage.herokuapp.com',
+    'https://generosity-market-p.herokuapp.com',
+];
+
 const corsPolicy = (req, res, next) => {
-    const allowedDomains = ['http://localhost:3001', 'https://generosity-market.herokuapp.com'];
     const { origin } = req.headers;
 
     if (allowedDomains.indexOf(origin) > -1) {
