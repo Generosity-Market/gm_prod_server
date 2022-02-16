@@ -20,7 +20,8 @@
         "pretest:ci": "npm run lint && cross-env NODE_ENV=ci npm run migrate:reset",
         "test:ci": "cross-env NODE_ENV=ci jest --verbose --testTimeout=10000 --colors",
         "test:watch": "npm run test -- --verbose --watch",
-        "test:coverage": "npm run test -- --coverage && cat ./coverage/lcov.info | coveralls"
+        "test:coverage": "npm run test -- --coverage && cat ./coverage/lcov.info | coveralls",
+        "prepare": "husky install"
     },
     "keywords": [
         "node",
@@ -62,7 +63,7 @@
         "eslint": "^8.9.0",
         "eslint-config-airbnb-base": "^15.0.0",
         "eslint-plugin-import": "^2.25.4",
-        "husky": "^7.0.4",
+        "husky": "^7.0.0",
         "jest": "^27.5.1",
         "jest-cli": "^27.5.1",
         "lint-staged": "^12.3.4"
