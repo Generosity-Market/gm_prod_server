@@ -11,6 +11,7 @@ const {
 
 const creds = { email: details.email, password: passwords.password };
 
+/* eslint-disable-next-line default-param-last */
 const login = async (credentials = creds, throwError) => {
     let response;
     response = await request(app).post('/api/users/login').send(credentials);

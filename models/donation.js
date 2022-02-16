@@ -1,4 +1,3 @@
-
 module.exports = (sequelize, DataTypes) => {
     const Donation = sequelize.define('Donation', {
         user_id: DataTypes.INTEGER,

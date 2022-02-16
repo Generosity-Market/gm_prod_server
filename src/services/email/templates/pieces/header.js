@@ -10,5 +10,4 @@ const htmlHeader = () => (
     </header>`
 );
 
-
 module.exports = htmlHeader;

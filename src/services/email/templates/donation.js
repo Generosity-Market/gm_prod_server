@@ -40,7 +40,7 @@ const htmlContent = ({
     cart,
     receipt_url,
 }) => (
-        `
+    `
     <h2 class="thank_you">Thank you for supporting these great causes</h2>
     <div class="main_content">
 
@@ -58,8 +58,7 @@ const htmlContent = ({
             ${renderCauses(cart)}
         </div>
     </div>`
-    );
-
+);
 
 exports.template = (mailData) => ({
     subject,
