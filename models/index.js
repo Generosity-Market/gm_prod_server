@@ -15,14 +15,16 @@ if (config.url) {
     sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 
-try {
-    sequelize.authenticate().then(() => {
+if (env !== 'test' && env !== 'ci') {
+    try {
+        sequelize.authenticate().then(() => {
+            /* eslint-disable-next-line no-console */
+            console.log('Connection has been established successfully.');
+        });
+    } catch (error) {
         /* eslint-disable-next-line no-console */
-        console.log('Connection has been established successfully.');
-    });
-} catch (error) {
-    /* eslint-disable-next-line no-console */
-    console.error('Unable to connect to the database:', error);
+        console.error('Unable to connect to the database:', error);
+    }
 }
 
 fs
