@@ -6,7 +6,7 @@ const visit = (url) => request(app).get(url).send();
 describe('\nApp startup\n', () => {
     let response;
 
-    describe('[GET} - /api', () => {
+    describe('[GET] - /api', () => {
         beforeAll(async () => {
             response = await visit('/api');
         });
