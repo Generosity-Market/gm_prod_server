@@ -57,7 +57,7 @@ const parseUploadData = (req) => new Promise((resolve, reject) => {
 const getFileFromS3 = async ({ bucket_name, name }) => {
     const params = { Bucket: getBucketName(bucket_name), Key: name };
     try {
-        await s3.headObject(params);
+        await s3.headObject(params).promise();
         const signedUrl = s3.getSignedUrl('getObject', params);
         const url = signedUrl.substring(0, signedUrl.indexOf('?'));
         logger.log('File Already exists @ url: ', url);
