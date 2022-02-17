@@ -8,7 +8,7 @@ const htmlBody = (
     bodyContent,
     mailData,
 ) => (
-        `<html>
+    `<html>
             <head>
                 <style type="text/css">
                     ${htmlStyles}
@@ -23,7 +23,6 @@ const htmlBody = (
                 </div>
             </body>
         </html>`
-    );
-
+);
 
 module.exports = htmlBody;

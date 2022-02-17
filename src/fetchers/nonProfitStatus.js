@@ -9,11 +9,14 @@ const verifyNonProfitStatus = async (URL, tax_id) => {
         const json = await response.json();
 
         if (!response.error) {
+            /* eslint-disable-next-line no-console */
             console.log(json);
         } else {
+            /* eslint-disable-next-line no-console */
             console.log(response.error);
         }
     } catch (error) {
+        /* eslint-disable-next-line no-console */
         console.log(error);
     }
 };

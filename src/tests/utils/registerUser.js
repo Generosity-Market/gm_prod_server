@@ -8,7 +8,6 @@ const {
     Preferences,
 } = user;
 
-
 const allOptions = { ...details, ...passwords, ...Preferences };
 
 module.exports = async () => createItem('users', allOptions);
