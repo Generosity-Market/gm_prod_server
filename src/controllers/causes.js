@@ -50,7 +50,6 @@ exports.createCause = async (req, res) => {
 // Getting the entire cause list w/ Preferences, Donations, totalRaised and Comments
 // TODO: create a way to change the sort on a property that's passed in the request
 // TODO: instead of creating multiple routes / controllers...
-// TODO: add pagination and/or infinite scroll???
 exports.getCauses = async (req, res) => {
     try {
         // TODO: Why doesn't this work here? Is it bc the db is empty on donations?
