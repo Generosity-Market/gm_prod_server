@@ -3,6 +3,8 @@ node_modules/
 # misc
 .DS_Store
 
+.eslintcache
+
 .env.default
 .env.local
 .env.development.local
