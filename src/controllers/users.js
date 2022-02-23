@@ -1,4 +1,4 @@
-// const sequelize = require('sequelize');
+const sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
 
 const { awsUtils } = require('../utilities');
@@ -11,6 +11,8 @@ const {
     Donation,
     Comment,
 } = require('../../models');
+
+const totalRaisedQuery = '(SELECT SUM("Donations"."amount") FROM "Donations" WHERE "Donations"."cause_id" = "Cause"."id")';
 
 // Signup a user, returns user data w/Preferences
 exports.registerUser = async (req, res) => {
@@ -209,6 +211,9 @@ exports.getUserCauses = async (req, res) => {
         const causes = await Cause.findAll({
             where: {
                 user_id: req.params.id,
+            },
+            attributes: {
+                include: [[sequelize.literal(totalRaisedQuery), 'totalRaised']],
             },
             include: [{
                 model: Preference,
