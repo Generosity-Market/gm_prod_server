@@ -203,7 +203,7 @@ exports.setUserImage = async (req, res) => {
     }
 };
 
-// Get causes by the users id
+// Get causes created by the users id
 exports.getUserCauses = async (req, res) => {
     try {
         const causes = await Cause.findAll({
