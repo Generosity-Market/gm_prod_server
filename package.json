@@ -40,7 +40,7 @@
         "express": "^4.17.2",
         "file-type": "^17.1.1",
         "fs": "0.0.1-security",
-        "jsonwebtoken": "^8.5.1",
+        "jsonwebtoken": "^9.0.0",
         "morgan": "^1.10.0",
         "multiparty": "^4.2.3",
         "node-fetch": "^3.2.0",
