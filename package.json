@@ -45,7 +45,7 @@
         "multiparty": "^4.2.3",
         "node-fetch": "^3.2.0",
         "nodemailer": "^6.7.2",
-        "nodemon": "^2.0.15",
+        "nodemon": "^2.0.20",
         "passport": "^0.5.2",
         "passport-http": "^0.3.0",
         "passport-jwt": "^4.0.0",
