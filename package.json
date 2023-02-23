@@ -51,7 +51,7 @@
         "passport-jwt": "^4.0.0",
         "path": "^0.12.7",
         "pg": "^8.7.3",
-        "sequelize": "^6.16.1",
+        "sequelize": "^6.28.2",
         "sequelize-cli": "^6.4.1",
         "stripe": "^8.203.0",
         "supertest": "^6.2.2",
